@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.storycafe.admin.board.dao.BoardAdminDao">
+    
+    <select id="boardMenu" resultType="com.storycafe.admin.board.model.BoardListDto">
+		select bl.bcode, bl.bname, bl.btype, c.ccode, c.cname, 
+        	decode(bl.btype, 1, 'reboard', 
+        	                 2, 'board', 
+        	                 3, 'album', 
+   	                      'bbs') controller  
+		from board_list bl, category c 
+		where bl.ccode = c.ccode 
+		order by bl.bcode
+    </select>
+    
+    <select id="categoryList" parameterType="int" resultType="com.storycafe.admin.board.model.BoardListDto">
+   		select bl.bname, c.cname
+		from board_list bl, category c
+		where bcode = #{bcode}
+		and bl.ccode = c.ccode
+    </select>
+    
+</mapper>

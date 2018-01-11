@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storycafe.member.dao.MemberDao">
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(mid)
+        from member
+        where mid = #{mid}
+	</select>
+	
+	<insert id="registerMember" parameterType="com.storycafe.member.model.MemberDetailDto">
+        insert all 
+            into member (mno, mid, mname, mpass, mcode)
+            values (member_mno.nextval, #{mid}, #{mname}, #{mpass}, '회원')
+            into member_detail (mgender, email1, email2, phone1, phone2, phone3, mjoindate, mno)
+            values (#{mgender}, #{email1}, #{email2}, #{phone1}, #{phone2}, #{phone3}, sysdate, member_mno.nextval)
+        select * from dual
+	</insert>
+	
+	<select id="login" parameterType="java.util.Map" resultType="com.storycafe.member.model.MemberDto">
+        select mno, mid, mname, mpass, mcode
+        from member
+        where mid = #{userid} and mpass = #{userpass}
+        and (mcode = '관리자' or mcode = '회원')
+    </select>
+    
+    <update id="modifyUserInfo" parameterType="com.storycafe.member.model.MemberDto">
+    	update member
+    	set mpass = #{mpass}
+    	where mno = #{mno}
+    </update>
+    
+    <delete id="deleteReboard" parameterType="com.storycafe.member.model.MemberDto">
+    	delete reboard
+    	where mno = #{mno}     
+    </delete>
+    
+    <delete id="deleteBbs" parameterType="com.storycafe.member.model.MemberDto">
+    	delete bbs
+    	where mno = #{mno}    
+    </delete>    
+    
+    <delete id="deleteAlbum" parameterType="com.storycafe.member.model.MemberDto">
+    	delete album
+    	where mno = #{mno}    
+    </delete>
+
+    <delete id="deleteMemo" parameterType="com.storycafe.member.model.MemberDto">
+    	delete memo
+    	where mno = #{mno}    
+    </delete>    
+
+    <delete id="deleteBoard" parameterType="com.storycafe.member.model.MemberDto">
+    	delete board
+    	where mno = #{mno}    
+    </delete>  
+    
+    <delete id="outOfUser" parameterType="com.storycafe.member.model.MemberDto">
+    	update member
+    	set mcode = '탈퇴'
+    	where mno = #{mno}
+    </delete>
+
+</mapper>

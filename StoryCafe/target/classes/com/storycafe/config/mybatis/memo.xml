@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storycafe.board.dao.MemoDao">
+	<insert id="writeMemo" parameterType="com.storycafe.board.model.MemoDto">
+		insert into memo(mseq, mcontent, mtime, mmid, mmname, mno, seq)
+		values(memo_mseq.nextval, #{mcontent}, sysdate, #{mmid}, #{mmname}, (select mno from member where mno = #{mno}), #{seq})
+	</insert>
+	
+	<select id="listMemo" parameterType="int" resultType="com.storycafe.board.model.MemoDto">
+		select mseq, seq, mno, mmid, mmname, mcontent,          
+        	case when to_char(mtime, 'yymmdd') = to_char(sysdate, 'yymmdd')
+                 then to_char(mtime, 'hh24:mi:ss')
+                 else to_char(mtime, 'yy.mm.dd')
+            end mtime 
+        from memo
+        where seq = #{seq}
+        order by mseq desc
+	</select>
+	
+	<delete id="deleteMemo" parameterType="int">
+        delete memo
+        where mseq = #{mseq}     
+    </delete>
+</mapper>

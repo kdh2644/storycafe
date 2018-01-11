@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storycafe.board.dao.BoardDao">
+    <select id="listArticle" parameterType="java.util.Map" resultType="com.storycafe.board.model.BoardDto">
+        select b.*
+        from (
+                select rownum rn, a.*
+                from (
+                        select  seq, subject, content, hit, bcode, mno, name, id,
+                                case 
+                                    when to_char(logtime, 'yymmdd') = to_char(sysdate, 'yymmdd')
+                                    then to_char(logtime, 'hh24:mi:ss')
+                                    else to_char(logtime, 'yy.mm.dd')
+                                end logtime
+                        from board
+                        where bcode = #{bcode}
+        <if test="word != null and word != ''">
+            <if test="key == 'subject'">
+                and subject like '%'||#{word}||'%'
+            </if>
+            <if test="key != 'subject'">
+                and ${key} = #{word}
+            </if>
+        </if>
+                        order by seq desc
+                        ) a
+                where rownum &lt;= #{end}
+                ) b
+        where b.rn &gt; #{start}
+    </select>
+    
+    <insert id="writeArticle" parameterType="com.storycafe.board.model.BoardDto">
+    	insert into board (seq, subject, content, hit, logtime, name, id, mno, bcode)
+        values (#{seq}, #{subject}, #{content}, 0, sysdate, #{name}, #{id}, #{mno}, #{bcode})
+    </insert>
+    
+   	<select id="viewArticle" parameterType="int" resultType="com.storycafe.board.model.BoardDto">
+        select seq, name, id, subject, content, hit, logtime, bcode, mno
+        from board
+        where seq = #{seq}
+    </select>
+    
+    <update id="modifyArticle" parameterType="com.storycafe.board.model.BoardDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where seq = #{seq}
+    </update>
+   	
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where seq = #{seq}
+    </delete>       
+</mapper>

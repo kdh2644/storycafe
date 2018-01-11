@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storycafe.board.dao.AlbumDao">
+    <select id="listArticle" parameterType="java.util.Map" resultType="com.storycafe.board.model.AlbumDto">
+        select b.*
+            from (
+                select rownum rn, a.*
+                from (
+                    select  b.seq, b.name, b.id, b.subject, 
+                            b.content, b.hit, b.bcode,
+                            case 
+                                when to_char(b.logtime, 'yymmdd') = to_char(sysdate, 'yymmdd')
+                                then to_char(b.logtime, 'hh24:mi:ss')
+                                else to_char(b.logtime, 'yy.mm.dd')
+                            end logtime, 
+                            al.aseq, al.origin_picture originPicture, al.save_picture savePicture, al.savefolder, al.type
+                    from board b, album al
+                    where b.seq = al.seq
+                    and bcode = #{bcode}
+            <if test="word != null and word != ''">
+                <if test="key == 'subject'">
+                    and b.subject like '%'||#{word}||'%'
+                </if>
+                <if test="key != 'subject'">
+                    and b.${key} = #{word}
+                </if>
+            </if>
+            order by seq desc
+            ) a
+            where rownum &lt;= #{end}
+        ) b
+        where b.rn &gt; #{start}
+    </select>
+    
+   	<insert id="writeArticle" parameterType="com.storycafe.board.model.AlbumDto">    
+    insert all
+        into board (seq, name, id, mno, subject, content, hit, logtime, bcode)
+        values (#{seq}, #{name}, #{id}, #{mno}, #{subject}, #{content}, 0, sysdate, #{bcode})
+        into album (aseq, seq, origin_picture, save_picture, savefolder, type, mno)
+        values (album_aseq.nextval, #{seq}, #{originPicture}, #{savePicture}, #{saveFolder}, #{type}, #{mno})
+    select * from dual
+    </insert>
+    
+    <select id="viewArticle" parameterType="int" resultType="com.storycafe.board.model.AlbumDto">
+        select b.seq, b.name, b.id, b.subject, 
+               b.content, b.hit, b.logtime, b.bcode, 
+               al.aseq, al.seq, al.origin_picture originPicture, al.save_picture savePicture, al.savefolder, al.type
+        from board b, album al
+        where b.seq = al.seq
+        and b.seq = #{seq}
+    </select>
+    
+    <delete id="deleteAlbum" parameterType="int">
+        delete from album
+        where seq = #{seq}              
+    </delete>
+    
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where seq = #{seq}
+    </delete>
+
+    <update id="modifyPhoto" parameterType="com.storycafe.board.model.AlbumDto">
+        update album
+        set origin_picture = #{originPicture}, save_picture = #{savePicture}
+        where seq = #{seq}
+    </update>
+    
+    <update id="modifyArticle" parameterType="com.storycafe.board.model.AlbumDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where seq = #{seq}
+    </update>
+    
+</mapper>

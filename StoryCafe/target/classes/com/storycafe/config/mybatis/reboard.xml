@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storycafe.board.dao.ReboardDao">
+    <select id="listArticle" parameterType="java.util.Map" resultType="com.storycafe.board.model.ReboardDto">
+        select b.*
+        from (
+                select rownum rn, a.*
+                from (
+                        select  b.seq, b.subject, b.content, b.hit, b.bcode, b.mno, b.name, b.id,
+                                case 
+                                    when to_char(b.logtime, 'yymmdd') = to_char(sysdate, 'yymmdd')
+                                    then to_char(b.logtime, 'hh24:mi:ss')
+                                    else to_char(b.logtime, 'yy.mm.dd')
+                                end logtime, 
+                                r.rseq, r.ref, r.lev, r.step, r.pseq, r.reply
+                        from board b, reboard r
+                        where b.seq = r.seq
+                        and bcode = #{bcode}
+        <if test="word != null and word != ''">
+            <if test="key == 'subject'">
+                and b.subject like '%'||#{word}||'%'
+            </if>
+            <if test="key != 'subject'">
+                and b.${key} = #{word}
+            </if>
+        </if>
+                        order by ref desc, step
+                        ) a
+                where rownum &lt;= #{end}
+                ) b
+        where b.rn &gt; #{start}
+    </select>
+    
+    <insert id="writeArticle" parameterType="com.storycafe.board.model.ReboardDto">
+        insert all
+            into board (seq, subject, content, hit, logtime, name, id, mno, bcode)
+            values (#{seq}, #{subject}, #{content}, 0, sysdate, #{name}, #{id}, #{mno}, #{bcode})
+            into reboard (rseq, seq, ref, lev, step, pseq, reply)
+            values (reboard_rseq.nextval, #{seq}, #{ref}, 0, 0, 0, 0)
+        select * from dual
+    </insert>
+    
+    <select id="viewArticle" parameterType="int" resultType="com.storycafe.board.model.ReboardDto">
+        select b.seq, b.name, b.id, b.subject, 
+               b.content, b.hit, b.logtime, b.bcode, 
+               r.rseq, r.ref, r.lev, r.step, r.pseq, r.reply
+        from board b, reboard r
+        where b.seq = r.seq
+        and b.seq = #{seq}
+    </select>
+    
+    <update id="modifyArticle" parameterType="com.storycafe.board.model.ReboardDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where seq = #{seq}
+    </update>
+    
+    <delete id="deleteReboard" parameterType="int">
+        delete from reboard
+        where seq = #{seq}              
+    </delete>
+    
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where seq = #{seq}
+    </delete>    
+
+    <update id="updateStep" parameterType="com.storycafe.board.model.ReboardDto">
+        update reboard
+        set step = step + 1 
+        where ref = #{ref} 
+        and step > #{step}
+    </update>
+    
+    <insert id="replyArticle" parameterType="com.storycafe.board.model.ReboardDto">
+        insert all
+        into board (seq, name, id, subject, content, hit, logtime, mno, bcode)
+        values (#{seq}, #{name}, #{id}, #{subject}, #{content}, 0, sysdate, #{mno}, #{bcode})
+        into reboard (rseq, seq, ref, lev, step, pseq, reply, mno)
+        values (reboard_rseq.nextval, #{seq}, #{ref}, #{lev}+1, #{step}+1, #{pseq}, 0, #{mno})
+        select * from dual
+    </insert>
+    
+    <update id="updateReply" parameterType="int">
+        update reboard
+        set reply = reply + 1
+        where seq = #{pseq}
+    </update>    
+    
+</mapper>
