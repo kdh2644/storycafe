@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.storycafe.admin.board.dao.BoardAdminDao;
 import com.storycafe.admin.board.model.BoardListDto;
+import com.storycafe.member.model.MemberDetailDto;
 
 @Service
 public class BoardAdminServiceImpl implements BoardAdminService {
@@ -23,9 +24,11 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	}
 
 	@Override
-	public List<BoardListDto> categoryList(int bcode) {
+	public List<MemberDetailDto> cateList() {
 		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
-		return boardAdminDao.categoryList(bcode);
+		return boardAdminDao.cateList();
 	}
-	
+
+
+
 }

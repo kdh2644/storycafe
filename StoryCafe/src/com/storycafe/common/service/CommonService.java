@@ -10,4 +10,5 @@ public interface CommonService {
 	int reboardCnt(int mno);
 	int albumCnt(int mno);
 	int bbsCnt(int mno);
+	PageNavigation makePageNavigate(Map<String, String> map);
 }

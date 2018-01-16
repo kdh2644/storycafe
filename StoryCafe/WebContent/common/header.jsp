@@ -30,32 +30,46 @@ root = "${root}";
 <nav class="navbar navbar-inverse" style="background-color: #116411; border: #eb8be7;">
   <div class="container">
   
-<c:if test="${userInfo.mname == '관리자'}">  
-    <ul class="nav navbar-nav">
+<c:if test="${userInfo.mname == '관리자'}">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+	<div class="collapse navbar-collapse" id="myNavbar">  
+    <ul class="nav navbar-nav navbar-left">
       <li><a href="${root}/index.jsp" class="glyphicon glyphicon-home"></a></li>
       <li>
-      	<a href="${root}/memberadmin/memberlist.cafe">회원관리</a>
-      </li>
-
-	  <li class="dropdown dropdown-toggle">
-      	<a href="#menuitem" data-toggle="dropdown">게시판 관리</a>
-      	<ul class="dropdown-menu">
-      		<li class="dropdown-item" role="presentation"><a role="menuitem" tabindex="-1" href="${root}/boardadmin/reboardlist.cafe">답변게시판 관리</a></li>
-      		<li class="dropdown-item" role="presentation"><a role="menuitem" tabindex="-1" href="${root}/boardadmin/boardlist.cafe">자유게시판 관리</a></li>
-      		<li class="dropdown-item" role="presentation"><a role="menuitem" tabindex="-1" href="${root}/boardadmin/albumlist.cafe">사진게시판 관리</a></li>
-      		<li class="dropdown-item" role="presentation"><a role="menuitem" tabindex="-1" href="${root}/boardadmin/bbslist.cafe">자료실 관리</a></li>
-      	</ul>
+      	<a href="${root}/admin/member/memadmin-header.jsp">회원관리</a>
       </li>
       
-      <li>
-      	<a href="${root}/boardadmin/catelist.cafe">카테고리 관리</a>
+      <li class="dropdown dropdown-toggle">
+      	<a href="${root}/admin/category/cateadmin-header.jsp">카테고리 관리</a>
       </li>                  
     </ul>
+   	<c:if test="${userInfo == null}">
+		<%@ include file="/log/logoff.jsp" %>
+	</c:if>
+	
+	<c:if test="${userInfo != null}">
+		<%@ include file="/log/loginok.jsp" %>
+	</c:if>    
+    </div>
 </c:if>     
   
   
-<c:if test="${userInfo.mname != '관리자'}">  
-    <ul class="nav navbar-nav">
+<c:if test="${userInfo.mname != '관리자'}">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+	<div class="collapse navbar-collapse" id="myNavbar">  
+    <ul class="nav navbar-nav navbar-left">
       <li><a href="${root}/index.jsp" class="glyphicon glyphicon-home"></a></li>
       <li>
       	<a href="${root}/community/community-header.jsp">
@@ -63,14 +77,15 @@ root = "${root}";
       	</a>
       </li>
     </ul>
-</c:if>    
-	<c:if test="${userInfo == null}">
+   	<c:if test="${userInfo == null}">
 		<%@ include file="/log/logoff.jsp" %>
 	</c:if>
 	
 	<c:if test="${userInfo != null}">
 		<%@ include file="/log/loginok.jsp" %>
 	</c:if>
+    </div>
+</c:if>  
 	
   </div>
 </nav>

@@ -19,4 +19,5 @@ public interface MemberDao {
 	void deleteReboard(int mno);
 	void deleteAlbum(int mno);
 	void deleteBbs(int mno);
+	void outdateupdate(int mno);
 }

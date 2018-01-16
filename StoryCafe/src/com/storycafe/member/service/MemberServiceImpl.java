@@ -60,6 +60,7 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.deleteAlbum(mno);
 		memberDao.deleteBbs(mno);
 		memberDao.deleteBoard(mno);
+		memberDao.outdateupdate(mno);
 		memberDao.outOfUser(mno);
 	}
 

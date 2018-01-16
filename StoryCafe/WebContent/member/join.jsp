@@ -100,7 +100,6 @@ function idcheck(){
   		<div class="col-sm-12 card-body" style="border: 5px solid #116411; height: 100%">
   			<div class="col-sm-4" style="margin-top: 100px; margin-bottom: 100px;"></div>
   			<div class="col-sm-4" style="margin-top: 100px; margin-bottom: 100px;">
-				
 				<div class="form-group" style="padding-bottom: 60px;" align="left">
 					<div class="col-sm-12">
 						<label>이름</label>

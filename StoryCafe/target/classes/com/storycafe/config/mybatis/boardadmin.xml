@@ -16,11 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by bl.bcode
     </select>
     
-    <select id="categoryList" parameterType="int" resultType="com.storycafe.admin.board.model.BoardListDto">
-   		select bl.bname, c.cname
+    <select id="cateList" resultType="com.storycafe.admin.board.model.BoardListDto">
+		select bname, cname, btype
 		from board_list bl, category c
-		where bcode = #{bcode}
-		and bl.ccode = c.ccode
+		where bl.ccode = c.ccode    
     </select>
     
 </mapper>

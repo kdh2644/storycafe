@@ -59,4 +59,22 @@ public class CommonServiceImpl implements CommonService {
 		CommonDao commonDao = sqlSession.getMapper(CommonDao.class);
 		return commonDao.bbsCnt(mno);
 	}
+
+	@Override
+	public PageNavigation makePageNavigate(Map<String, String> map) {
+		CommonDao commonDao = sqlSession.getMapper(CommonDao.class);
+		
+		int pg = Integer.parseInt(map.get("pg"));
+		PageNavigation navigation = new PageNavigation();
+		int pgSize = BoardConstance.PAGE_SIZE;
+		navigation.setPageNo(pg);
+		int totalArticleCount = commonDao.getTotalArticleCount(map);
+		navigation.setTotalArticleCount(totalArticleCount);
+		int totalPageCount = (totalArticleCount - 1) / Integer.parseInt(map.get("listsize")) + 1;
+		navigation.setTotalPageCount(totalPageCount);
+		navigation.setNowFirst(pg <= pgSize);
+		navigation.setNowEnd(pg > (totalPageCount - 1) / pgSize * pgSize);
+		
+		return navigation;
+	}
 }

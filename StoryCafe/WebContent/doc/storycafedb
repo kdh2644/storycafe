@@ -1,0 +1,664 @@
+ALTER TABLE member_detail
+	DROP
+		CONSTRAINT FK_member_TO_member_detail
+		CASCADE;
+
+ALTER TABLE board
+	DROP
+		CONSTRAINT FK_member_TO_board
+		CASCADE;
+
+ALTER TABLE board
+	DROP
+		CONSTRAINT FK_board_list_TO_board
+		CASCADE;
+
+ALTER TABLE board_list
+	DROP
+		CONSTRAINT FK_category_TO_board_list
+		CASCADE;
+
+ALTER TABLE board_list
+	DROP
+		CONSTRAINT FK_board_type_TO_board_list
+		CASCADE;
+
+ALTER TABLE reboard
+	DROP
+		CONSTRAINT FK_board_TO_reboard
+		CASCADE;
+
+ALTER TABLE album
+	DROP
+		CONSTRAINT FK_board_TO_album
+		CASCADE;
+
+ALTER TABLE bbs
+	DROP
+		CONSTRAINT FK_board_TO_bbs
+		CASCADE;
+
+ALTER TABLE memo
+	DROP
+		CONSTRAINT FK_member_TO_memo
+		CASCADE;
+
+ALTER TABLE memo
+	DROP
+		CONSTRAINT FK_board_TO_memo
+		CASCADE;
+
+ALTER TABLE member
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE board
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE board_list
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE board_type
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE category
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE reboard
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE album
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE bbs
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE memo
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+DROP INDEX PK_member;
+
+DROP INDEX PK_board;
+
+DROP INDEX PK_board_list;
+
+DROP INDEX PK_board_type;
+
+DROP INDEX PK_category;
+
+DROP INDEX PK_reboard;
+
+DROP INDEX PK_album;
+
+DROP INDEX PK_bbs;
+
+DROP INDEX PK_memo;
+
+/* 회원 */
+DROP TABLE member 
+	CASCADE CONSTRAINTS;
+
+/* 회원상세 */
+DROP TABLE member_detail 
+	CASCADE CONSTRAINTS;
+
+/* 게시판 */
+DROP TABLE board 
+	CASCADE CONSTRAINTS;
+
+/* 게시판리스트 */
+DROP TABLE board_list 
+	CASCADE CONSTRAINTS;
+
+/* 게시판형식 */
+DROP TABLE board_type 
+	CASCADE CONSTRAINTS;
+
+/* 카테고리 */
+DROP TABLE category 
+	CASCADE CONSTRAINTS;
+
+/* 답변형게시판 */
+DROP TABLE reboard 
+	CASCADE CONSTRAINTS;
+
+/* 사진게시판 */
+DROP TABLE album 
+	CASCADE CONSTRAINTS;
+
+/* 자료실 */
+DROP TABLE bbs 
+	CASCADE CONSTRAINTS;
+
+/* 메모글 */
+DROP TABLE memo 
+	CASCADE CONSTRAINTS;
+
+/* 회원 */
+CREATE TABLE member (
+	mno NUMBER NOT NULL, /* 회원번호 */
+	mid VARCHAR2(16), /* 아이디 */
+	mpass VARCHAR2(16), /* 비밀번호 */
+	mname VARCHAR2(15), /* 이름 */
+	mcode VARCHAR2(10) /* 회원분류 */
+);
+
+COMMENT ON TABLE member IS '회원';
+
+COMMENT ON COLUMN member.mno IS '회원번호';
+
+COMMENT ON COLUMN member.mid IS '아이디';
+
+COMMENT ON COLUMN member.mpass IS '비밀번호';
+
+COMMENT ON COLUMN member.mname IS '이름';
+
+COMMENT ON COLUMN member.mcode IS '회원분류';
+
+CREATE UNIQUE INDEX PK_member
+	ON member (
+		mno ASC
+	);
+
+ALTER TABLE member
+	ADD
+		CONSTRAINT PK_member
+		PRIMARY KEY (
+			mno
+		);
+
+/* 회원상세 */
+CREATE TABLE member_detail (
+	mgender NUMBER, /* 성별 */
+	email1 VARCHAR2(20), /* 이메일1 */
+	email2 VARCHAR2(20), /* 이메일2 */
+	phone1 NUMBER, /* 전화번호1 */
+	phone2 NUMBER, /* 전화번호2 */
+	phone3 NUMBER, /* 전화번호3 */
+	mjoindate DATE, /* 가입일자 */
+	moutdate DATE, /* 탈퇴일자 */
+	mno NUMBER /* 회원번호 */
+);
+
+COMMENT ON TABLE member_detail IS '회원상세';
+
+COMMENT ON COLUMN member_detail.mgender IS '성별';
+
+COMMENT ON COLUMN member_detail.email1 IS '이메일1';
+
+COMMENT ON COLUMN member_detail.email2 IS '이메일2';
+
+COMMENT ON COLUMN member_detail.phone1 IS '전화번호1';
+
+COMMENT ON COLUMN member_detail.phone2 IS '전화번호2';
+
+COMMENT ON COLUMN member_detail.phone3 IS '전화번호3';
+
+COMMENT ON COLUMN member_detail.mjoindate IS '가입일자';
+
+COMMENT ON COLUMN member_detail.moutdate IS '탈퇴일자';
+
+COMMENT ON COLUMN member_detail.mno IS '회원번호';
+
+/* 게시판 */
+CREATE TABLE board (
+	seq NUMBER NOT NULL, /* 글번호 */
+	mno NUMBER NOT NULL, /* 회원번호 */
+	subject VARCHAR2(100), /* 제목 */
+	content CLOB, /* 내용 */
+	hit NUMBER, /* 조회수 */
+	logtime DATE, /* 작성일자 */
+	name VARCHAR2(15), /* 작성자 */
+	id VARCHAR2(16), /* 작성자아이디 */
+	bcode NUMBER /* 게시판번호 */
+);
+
+COMMENT ON TABLE board IS '게시판';
+
+COMMENT ON COLUMN board.seq IS '글번호';
+
+COMMENT ON COLUMN board.mno IS '회원번호';
+
+COMMENT ON COLUMN board.subject IS '제목';
+
+COMMENT ON COLUMN board.content IS '내용';
+
+COMMENT ON COLUMN board.hit IS '조회수';
+
+COMMENT ON COLUMN board.logtime IS '작성일자';
+
+COMMENT ON COLUMN board.name IS '작성자';
+
+COMMENT ON COLUMN board.id IS '작성자아이디';
+
+COMMENT ON COLUMN board.bcode IS '게시판번호';
+
+CREATE UNIQUE INDEX PK_board
+	ON board (
+		seq ASC,
+		mno ASC
+	);
+
+ALTER TABLE board
+	ADD
+		CONSTRAINT PK_board
+		PRIMARY KEY (
+			seq,
+			mno
+		);
+
+/* 게시판리스트 */
+CREATE TABLE board_list (
+	bcode NUMBER NOT NULL, /* 게시판번호 */
+	bname VARCHAR2(100), /* 게시판이름 */
+	ccode NUMBER, /* 카테고리번호 */
+	btype NUMBER /* 게시판형식번호 */
+);
+
+COMMENT ON TABLE board_list IS '게시판리스트';
+
+COMMENT ON COLUMN board_list.bcode IS '게시판번호';
+
+COMMENT ON COLUMN board_list.bname IS '게시판이름';
+
+COMMENT ON COLUMN board_list.ccode IS '카테고리번호';
+
+COMMENT ON COLUMN board_list.btype IS '게시판형식번호';
+
+CREATE UNIQUE INDEX PK_board_list
+	ON board_list (
+		bcode ASC
+	);
+
+ALTER TABLE board_list
+	ADD
+		CONSTRAINT PK_board_list
+		PRIMARY KEY (
+			bcode
+		);
+
+/* 게시판형식 */
+CREATE TABLE board_type (
+	btype NUMBER NOT NULL, /* 게시판형식번호 */
+	btype_name VARCHAR2(100) /* 게시판형식이름 */
+);
+
+COMMENT ON TABLE board_type IS '게시판형식';
+
+COMMENT ON COLUMN board_type.btype IS '게시판형식번호';
+
+COMMENT ON COLUMN board_type.btype_name IS '게시판형식이름';
+
+CREATE UNIQUE INDEX PK_board_type
+	ON board_type (
+		btype ASC
+	);
+
+ALTER TABLE board_type
+	ADD
+		CONSTRAINT PK_board_type
+		PRIMARY KEY (
+			btype
+		);
+
+/* 카테고리 */
+CREATE TABLE category (
+	ccode NUMBER NOT NULL, /* 카테고리번호 */
+	cname VARCHAR2(100) /* 카테고리이름 */
+);
+
+COMMENT ON TABLE category IS '카테고리';
+
+COMMENT ON COLUMN category.ccode IS '카테고리번호';
+
+COMMENT ON COLUMN category.cname IS '카테고리이름';
+
+CREATE UNIQUE INDEX PK_category
+	ON category (
+		ccode ASC
+	);
+
+ALTER TABLE category
+	ADD
+		CONSTRAINT PK_category
+		PRIMARY KEY (
+			ccode
+		);
+
+/* 답변형게시판 */
+CREATE TABLE reboard (
+	rseq NUMBER NOT NULL, /* 답변게시판번호 */
+	ref NUMBER, /* 그룹번호 */
+	lev NUMBER, /* 들여쓰기 */
+	step NUMBER, /* 답변정렬 */
+	pseq NUMBER, /* 원글번호 */
+	reply NUMBER, /* 답변갯수 */
+	seq NUMBER, /* 글번호 */
+	mno NUMBER /* 회원번호 */
+);
+
+COMMENT ON TABLE reboard IS '답변형게시판';
+
+COMMENT ON COLUMN reboard.rseq IS '답변게시판번호';
+
+COMMENT ON COLUMN reboard.ref IS '그룹번호';
+
+COMMENT ON COLUMN reboard.lev IS '들여쓰기';
+
+COMMENT ON COLUMN reboard.step IS '답변정렬';
+
+COMMENT ON COLUMN reboard.pseq IS '원글번호';
+
+COMMENT ON COLUMN reboard.reply IS '답변갯수';
+
+COMMENT ON COLUMN reboard.seq IS '글번호';
+
+COMMENT ON COLUMN reboard.mno IS '회원번호';
+
+CREATE UNIQUE INDEX PK_reboard
+	ON reboard (
+		rseq ASC
+	);
+
+ALTER TABLE reboard
+	ADD
+		CONSTRAINT PK_reboard
+		PRIMARY KEY (
+			rseq
+		);
+
+/* 사진게시판 */
+CREATE TABLE album (
+	aseq NUMBER NOT NULL, /* 사진게시판번호 */
+	origin_picture VARCHAR2(100), /* 원본사진이름 */
+	save_picture VARCHAR2(100), /* 저장사진이름 */
+	savefolder VARCHAR2(30), /* 저장폴더 */
+	type NUMBER(1), /* 사진타입 */
+	seq NUMBER, /* 글번호 */
+	mno NUMBER /* 회원번호 */
+);
+
+COMMENT ON TABLE album IS '사진게시판';
+
+COMMENT ON COLUMN album.aseq IS '사진게시판번호';
+
+COMMENT ON COLUMN album.origin_picture IS '원본사진이름';
+
+COMMENT ON COLUMN album.save_picture IS '저장사진이름';
+
+COMMENT ON COLUMN album.savefolder IS '저장폴더';
+
+COMMENT ON COLUMN album.type IS '사진타입';
+
+COMMENT ON COLUMN album.seq IS '글번호';
+
+COMMENT ON COLUMN album.mno IS '회원번호';
+
+CREATE UNIQUE INDEX PK_album
+	ON album (
+		aseq ASC
+	);
+
+ALTER TABLE album
+	ADD
+		CONSTRAINT PK_album
+		PRIMARY KEY (
+			aseq
+		);
+
+/* 자료실 */
+CREATE TABLE bbs (
+	bseq NUMBER NOT NULL, /* 자료실게시판번호 */
+	origin_file VARCHAR2(100), /* 원본파일이름 */
+	save_file VARCHAR2(100), /* 저장파일이름 */
+	filesize NUMBER, /* 파일크기 */
+	savefolder VARCHAR2(30), /* 저장폴더 */
+	seq NUMBER, /* 글번호 */
+	mno NUMBER /* 회원번호 */
+);
+
+COMMENT ON TABLE bbs IS '자료실';
+
+COMMENT ON COLUMN bbs.bseq IS '자료실게시판번호';
+
+COMMENT ON COLUMN bbs.origin_file IS '원본파일이름';
+
+COMMENT ON COLUMN bbs.save_file IS '저장파일이름';
+
+COMMENT ON COLUMN bbs.filesize IS '파일크기';
+
+COMMENT ON COLUMN bbs.savefolder IS '저장폴더';
+
+COMMENT ON COLUMN bbs.seq IS '글번호';
+
+COMMENT ON COLUMN bbs.mno IS '회원번호';
+
+CREATE UNIQUE INDEX PK_bbs
+	ON bbs (
+		bseq ASC
+	);
+
+ALTER TABLE bbs
+	ADD
+		CONSTRAINT PK_bbs
+		PRIMARY KEY (
+			bseq
+		);
+
+/* 메모글 */
+CREATE TABLE memo (
+	mseq NUMBER NOT NULL, /* 메모글번호 */
+	mmid VARCHAR2(16), /* 작성아이디 */
+	mmname VARCHAR2(15), /* 작성자 */
+	mcontent VARCHAR2(500), /* 메모내용 */
+	mtime DATE, /* 메모작성일 */
+	mno NUMBER, /* 회원번호 */
+	seq NUMBER /* 글번호 */
+);
+
+COMMENT ON TABLE memo IS '메모글';
+
+COMMENT ON COLUMN memo.mseq IS '메모글번호';
+
+COMMENT ON COLUMN memo.mmid IS '작성아이디';
+
+COMMENT ON COLUMN memo.mmname IS '작성자';
+
+COMMENT ON COLUMN memo.mcontent IS '메모내용';
+
+COMMENT ON COLUMN memo.mtime IS '메모작성일';
+
+COMMENT ON COLUMN memo.mno IS '회원번호';
+
+COMMENT ON COLUMN memo.seq IS '글번호';
+
+CREATE UNIQUE INDEX PK_memo
+	ON memo (
+		mseq ASC
+	);
+
+ALTER TABLE memo
+	ADD
+		CONSTRAINT PK_memo
+		PRIMARY KEY (
+			mseq
+		);
+
+ALTER TABLE member_detail
+	ADD
+		CONSTRAINT FK_member_TO_member_detail
+		FOREIGN KEY (
+			mno
+		)
+		REFERENCES member (
+			mno
+		);
+
+ALTER TABLE board
+	ADD
+		CONSTRAINT FK_member_TO_board
+		FOREIGN KEY (
+			mno
+		)
+		REFERENCES member (
+			mno
+		);
+
+ALTER TABLE board
+	ADD
+		CONSTRAINT FK_board_list_TO_board
+		FOREIGN KEY (
+			bcode
+		)
+		REFERENCES board_list (
+			bcode
+		);
+
+ALTER TABLE board_list
+	ADD
+		CONSTRAINT FK_category_TO_board_list
+		FOREIGN KEY (
+			ccode
+		)
+		REFERENCES category (
+			ccode
+		);
+
+ALTER TABLE board_list
+	ADD
+		CONSTRAINT FK_board_type_TO_board_list
+		FOREIGN KEY (
+			btype
+		)
+		REFERENCES board_type (
+			btype
+		);
+
+ALTER TABLE reboard
+	ADD
+		CONSTRAINT FK_board_TO_reboard
+		FOREIGN KEY (
+			seq,
+			mno
+		)
+		REFERENCES board (
+			seq,
+			mno
+		);
+
+ALTER TABLE album
+	ADD
+		CONSTRAINT FK_board_TO_album
+		FOREIGN KEY (
+			seq,
+			mno
+		)
+		REFERENCES board (
+			seq,
+			mno
+		);
+
+ALTER TABLE bbs
+	ADD
+		CONSTRAINT FK_board_TO_bbs
+		FOREIGN KEY (
+			seq,
+			mno
+		)
+		REFERENCES board (
+			seq,
+			mno
+		);
+
+ALTER TABLE memo
+	ADD
+		CONSTRAINT FK_member_TO_memo
+		FOREIGN KEY (
+			mno
+		)
+		REFERENCES member (
+			mno
+		);
+
+ALTER TABLE memo
+	ADD
+		CONSTRAINT FK_board_TO_memo
+		FOREIGN KEY (
+			seq,
+			mno
+		)
+		REFERENCES board (
+			seq,
+			mno
+		);
+		
+DROP SEQUENCE board_seq;
+	
+DROP SEQUENCE memo_mseq;
+	
+DROP SEQUENCE reboard_rseq;
+	
+DROP SEQUENCE album_aseq;
+
+DROP SEQUENCE bbs_bseq;
+	
+DROP SEQUENCE member_mno;
+
+DROP SEQUENCE board_type_seq;
+
+DROP SEQUENCE board_list_bseq;
+
+DROP SEQUENCE board_type_cseq;		
+	
+CREATE SEQUENCE board_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE memo_mseq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE reboard_rseq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE album_aseq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE bbs_bseq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE member_mno
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE board_type_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE board_list_bseq
+START WITH 1 INCREMENT BY 1 NOCACHE;
+
+CREATE SEQUENCE board_type_cseq
+START WITH 1 INCREMENT BY 1 NOCACHE;		

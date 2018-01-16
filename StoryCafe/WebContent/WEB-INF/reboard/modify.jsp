@@ -20,6 +20,7 @@ function writeArticle() {
 		}
 	}
 }
+
 $(document).ready(function() {
 	$("#cancelBtn").click(function() {
 		if (confirm("게시글 작성을 취소하시겠습니까?") == true) {

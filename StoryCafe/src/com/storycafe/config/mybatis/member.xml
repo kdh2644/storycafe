@@ -55,6 +55,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	delete board
     	where mno = #{mno}    
     </delete>  
+
+    <delete id="outdateupdate" parameterType="com.storycafe.member.model.MemberDto">
+    	update member_detail
+    	set moutdate = sysdate
+    	where mno = #{mno}
+    </delete>
     
     <delete id="outOfUser" parameterType="com.storycafe.member.model.MemberDto">
     	update member

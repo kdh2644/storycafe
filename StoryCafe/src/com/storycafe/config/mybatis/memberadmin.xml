@@ -4,7 +4,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.storycafe.admin.member.dao.MemberAdminDao">
+    <select id="memberList" parameterType="java.util.Map" resultType="com.storycafe.member.model.MemberDetailDto">
+		select b.*
+		from (
+		    select rownum rn, a.*
+		    from (
+		        select m.mno, m.mid, m.mpass, m.mname, m.mcode, d.mgender, 
+		            d.email1, d.email2, d.phone1, d.phone2, d.phone3,  to_char(d.mjoindate, 'yyyy.mm.dd') mjoindate, to_char(d.moutdate, 'yyyy.mm.dd') moutdate
+		        from member m, member_detail d
+		        where m.mno = d.mno
+		        order by m.mno desc
+		    ) a
+		    where rownum &lt;= #{end}  
+		) b
+		where b.rn  &gt; #{start}  
+    </select>
     
-
+   	<insert id="registerMember" parameterType="com.storycafe.member.model.MemberDetailDto">
+        insert all 
+            into member (mno, mid, mname, mpass, mcode)
+            values (member_mno.nextval, #{mid}, #{mname}, #{mpass}, #{mcode})
+            into member_detail (mgender, email1, email2, phone1, phone2, phone3, mjoindate, mno)
+            values (#{mgender}, #{email1}, #{email2}, #{phone1}, #{phone2}, #{phone3}, sysdate, member_mno.nextval)
+        select * from dual
+	</insert>
+	
+	<update id="updateMemberCode" parameterType="com.storycafe.member.model.MemberDetailDto">
+		update member
+		set mcode = #{mcode}
+		where mid = #{mid}
+	</update>
+    <delete id="deleteMemberDetail" parameterType="com.storycafe.member.model.MemberDetailDto">
+    	delete member_detail
+    	where mno = #{mno}
+    </delete>
+    
+    <delete id="deleteMember" parameterType="com.storycafe.member.model.MemberDetailDto">
+    	delete member_detail
+    	where mno = #{mno}
+    </delete>
     
 </mapper>

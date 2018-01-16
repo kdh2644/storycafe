@@ -6,6 +6,7 @@ public class BoardListDto extends CategoryDto{
 	private int btype;
 	private String controller;
 	
+	
 	public int getBcode() {
 		return bcode;
 	}
