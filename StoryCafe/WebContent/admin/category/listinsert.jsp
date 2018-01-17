@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#insBtn").click(function() {
+	$("#listinsBtn").click(function() {
 	
-		if ($("#cname").val() == "") {
-			alert("카테고리 이름을 입력해주세요.");
+		if ($("#ccode").val() == "ccodesel") {
+			alert("카테고리를 선택해주세요.");
 			return;
 		} else if ($("#bname").val() == "") {
 			alert("게시판 이름을 입력해주세요.");
@@ -16,8 +16,8 @@ $(document).ready(function() {
 			return;
 		} else {
 			if(confirm("카테고리 등록을 완료하시겠습니까?") == true){
-				document.boardinsertform.action = "${root}/boardadmin/boardinsert.cafe";
-				document.boardinsertform.submit();
+				document.listinsertform.action = "${root}/boardadmin/listinsert.cafe";
+				document.listinsertform.submit();
 			} else {
 				return;
 			}
@@ -29,21 +29,30 @@ $(document).ready(function() {
 <div class="modal-content">
 	<div class="modal-header" align="center" style="background-color: #116411;">
 		<div class="col-sm-12">
-			<h4 class="modal-title"><font style="color: white;">관리자-카테고리 등록</font></h4>
+			<h4 class="modal-title"><font style="color: white;">관리자-리스트 등록</font></h4>
 		</div>
 	</div>
 	<div class="modal-body" style="margin-top: 20px; margin-bottom: 250px;">
 		<div class="col-sm-12">
 			<div class="col-sm-3"></div>					
 			<div class="col-sm-6">
-			<form id="boardinsertform" name="boardinsertform" method="post" action="">
+			<form id="listinsertform" name="listinsertform" method="post" action="">
 				<div class="form-group" style="padding-bottom: 60px;" align="left">
 					<div class="col-sm-12">
-						<label>카테고리 이름</label>
+						<label for="ccode">카테고리</label>
 					</div>
 					<div class="col-sm-12">
-						<input type="text" id="cname" name="cname" class="form-control" maxlength="20">
-					</div>
+				
+					<select id="ccode" name="ccode" class="form-control">
+						<option value="ccodesel" selected="selected">선택</option>
+						<c:forEach var="caList" items="${caList}">
+							<c:if test="${cname != caList.cname}">
+							<c:set var="cname" value="${caList.cname}"/>						
+							<option value="${caList.ccode}">${caList.cname}</option>
+							</c:if>
+						</c:forEach>							
+					</select>								
+					</div>						
 				</div>
 				<div class="form-group" style="padding-bottom: 60px;" align="left">
 					<div class="col-sm-12">
@@ -80,7 +89,7 @@ $(document).ready(function() {
 			<button type="button" class="btn btn-default" data-dismiss="modal"
 			style="color:white; background-color: #116411; border-color: #116411;">취소</button>
 			<button type="button" class="btn btn-default" data-dismiss="modal" 
-			style="color:white; background-color: #116411; border-color: #116411;" id="insBtn" name="insBtn">등록</button>
+			style="color:white; background-color: #116411; border-color: #116411;" id="listinsBtn" name="listinsBtn">등록</button>
 		</div>
 	</div>
 </div>

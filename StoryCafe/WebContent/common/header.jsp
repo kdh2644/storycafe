@@ -30,7 +30,7 @@ root = "${root}";
 <nav class="navbar navbar-inverse" style="background-color: #116411; border: #eb8be7;">
   <div class="container">
   
-<c:if test="${userInfo.mname == '관리자'}">
+<c:if test="${userInfo.mcode == '관리자'}">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
@@ -60,7 +60,7 @@ root = "${root}";
 </c:if>     
   
   
-<c:if test="${userInfo.mname != '관리자'}">
+<c:if test="${userInfo.mcode != '관리자'}">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>

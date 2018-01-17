@@ -22,4 +22,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where bl.ccode = c.ccode    
     </select>
     
+    <select id="typeList" resultType="com.storycafe.admin.board.model.BoardTypeDto">
+		select btype, btype_name btypeName
+		from board_type 
+    </select>
+    
+    <select id="caList" resultType="com.storycafe.admin.board.model.CategoryDto">
+		select ccode, cname
+		from category 
+    </select>
+    
+    <insert id="cateinsert" parameterType="com.storycafe.admin.board.model.CategoryDto">
+    	insert into category(ccode, cname)
+    	values(board_type_cseq.nextval, #{cname})
+    </insert>
+    
+    <insert id="listinsert" parameterType="com.storycafe.admin.board.model.BoardListDto">
+    	insert into board_list(bcode, bname, ccode, btype)
+    	values(board_list_bseq.nextval, #{bname}, #{ccode}, #{btype})
+    </insert>
+    
+    <delete id="listdelete" parameterType="com.storycafe.admin.board.model.BoardListDto">
+    	delete from board_list
+    	where ccode = #{ccode} and btype = #{btype}
+    </delete>
+    
+    
 </mapper>

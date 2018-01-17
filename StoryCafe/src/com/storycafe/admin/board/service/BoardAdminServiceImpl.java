@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.storycafe.admin.board.dao.BoardAdminDao;
 import com.storycafe.admin.board.model.BoardListDto;
+import com.storycafe.admin.board.model.CategoryDto;
 import com.storycafe.member.model.MemberDetailDto;
 
 @Service
@@ -27,6 +28,36 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	public List<MemberDetailDto> cateList() {
 		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
 		return boardAdminDao.cateList();
+	}
+
+	@Override
+	public List<MemberDetailDto> typeList() {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		return boardAdminDao.typeList();
+	}
+
+	@Override
+	public int cateinsert(CategoryDto categoryDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		return boardAdminDao.cateinsert(categoryDto);
+	}
+
+	@Override
+	public List<MemberDetailDto> caList() {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		return boardAdminDao.caList();
+	}
+
+	@Override
+	public int listinsert(BoardListDto boardListDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		return boardAdminDao.listinsert(boardListDto);
+	}
+
+	@Override
+	public void listdelete(BoardListDto boardListDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		boardAdminDao.listdelete(boardListDto);
 	}
 
 
