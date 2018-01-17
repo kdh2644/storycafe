@@ -47,5 +47,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	where ccode = #{ccode} and btype = #{btype}
     </delete>
     
+    <delete id="catedelete" parameterType="com.storycafe.admin.board.model.CategoryDto">
+    	delete from category
+    	where cname = #{cname}
+    </delete>
+    
+    <update id="cateupdate" parameterType="com.storycafe.admin.board.model.CategoryDto">
+   		update category
+   		set cname = #{cname}
+   		where ccode = #{ccode}	
+    </update>
+    
+    <update id="listupdate" parameterType="com.storycafe.admin.board.model.BoardListDto">
+   		update board_list
+   		set bname = #{bname}
+   		where ccode = #{ccode} and btype = #{btype}
+    </update>    
+    
     
 </mapper>

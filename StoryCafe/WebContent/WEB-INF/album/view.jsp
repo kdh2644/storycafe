@@ -150,11 +150,11 @@ function makelist(data) {
 			<br><br>
 			<div align="left"><font size="3px" style="color: #108f50;">내용</font></div>
 			<div class="col-sm-12" style="margin-top: 20px;">
-				<div class="col-sm-6">
-					<img src="${root}/upload/${article.saveFolder}/${article.savePicture}" width="350px" height="480px">
+				<div class="col-sm-12" style="margin-bottom: 20px;">
+					<img src="${root}/upload/${article.saveFolder}/${article.savePicture}" width="350px" height="400px">
 				</div>
-				<div class="col-sm-6">
-					<textarea id="content" name="content" class="form-control" rows="25" cols="100" readonly="readonly">${article.content}</textarea>
+				<div class="col-sm-12">
+					<textarea id="content" name="content" class="form-control" rows="5" cols="100" readonly="readonly">${article.content}</textarea>
 				</div>
 			</div>
 		</div>
@@ -165,17 +165,17 @@ function makelist(data) {
 	<div class="col-sm-6"></div>
 	<div class="col-sm-2" align="right" style="margin-bottom: 20px; margin-top: 20px; height: 100%;">
 		<button type="button" id="writeBtn" name="writeBtn" class="btn btn-default btn-block" 
-			style="color:#108f50; background-color: #85cb97; border-color: #108f50;" onclick="javascript:listArticle('${bcode}', '1', '', '');">목록</button>
+			style="color:white; background-color: #116411; border-color: #116411;" onclick="javascript:listArticle('${bcode}', '1', '', '');">목록</button>
 	</div>
 
 	<div class="col-sm-2" align="right" style="margin-bottom: 20px; margin-top: 20px; height: 100%;">
 		<button type="button" id="writeBtn" name="writeBtn" class="btn btn-default btn-block" 
-			style="color:#108f50; background-color: #85cb97; border-color: #108f50;" onclick="javascript:moveModify();">수정</button>
+			style="color:white; background-color: #116411; border-color: #116411;" onclick="javascript:moveModify();">수정</button>
 	</div>
 	
 	<div class="col-sm-2" align="right" style="margin-bottom: 20px; margin-top: 20px; height: 100%;">
 		<button type="button" id="writeBtn" name="writeBtn" class="btn btn-default btn-block" 
-			style="color:#108f50; background-color: #85cb97; border-color: #108f50;" onclick="javascript:deleteArticle();">삭제</button>
+			style="color:white; background-color: #116411; border-color: #116411;" onclick="javascript:deleteArticle();">삭제</button>
 	</div>
 </div>
 </c:if>

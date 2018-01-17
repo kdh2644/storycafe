@@ -17,4 +17,7 @@ public interface BoardAdminDao {
 	List<MemberDetailDto> caList();
 	int listinsert(BoardListDto boardListDto);
 	void listdelete(BoardListDto boardListDto);
+	void catedelete(CategoryDto categoryDto);
+	void cateupdate(CategoryDto categoryDto);
+	void listupdate(BoardListDto boardListDto);
 }

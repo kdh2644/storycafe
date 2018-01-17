@@ -60,6 +60,23 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 		boardAdminDao.listdelete(boardListDto);
 	}
 
+	@Override
+	public void catedelete(CategoryDto categoryDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		boardAdminDao.catedelete(categoryDto);
+	}
+
+	@Override
+	public void cateupdate(CategoryDto categoryDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		boardAdminDao.cateupdate(categoryDto);
+	}
+
+	@Override
+	public void listupdate(BoardListDto boardListDto) {
+		BoardAdminDao boardAdminDao = sqlSession.getMapper(BoardAdminDao.class);
+		boardAdminDao.listupdate(boardListDto);
+	}
 
 
 }

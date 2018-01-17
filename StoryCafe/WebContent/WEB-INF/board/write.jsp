@@ -4,6 +4,8 @@
 <script type="text/javascript">
 control = "/board";
 
+CKEDITOR.replace( 'content' );
+
 function writeArticle() {
 	if($("#subject").val() == "") {
 		alert("게시판 제목을 입력해주세요.");
@@ -54,7 +56,7 @@ $(document).ready(function() {
 	<div class="col-sm-12" style="margin-top: 10px;">
 		<div class="input-group">
 			<input type="text" class="form-control" id="subject" name="subject" maxlength="40" placeholder="제목을 작성해주세요">
-			<textarea id="content" name="content" class="form-control" rows="25" cols="100" placeholder="내용을 작성해주세요"></textarea>
+			<textarea id="content" name="content" class="form-control" rows="25" cols="100" placeholder="내용을 작성해주세요">&lt;p&gt;Initial editor content.&lt;/p&gt;</textarea>
 		</div>
 	</div>
 	<div class="col-sm-12" style="margin-top: 30px; margin-bottom: 30px;">

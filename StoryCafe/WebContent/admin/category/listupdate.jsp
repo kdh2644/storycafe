@@ -3,21 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#insBtn").click(function() {
+	$("#listupdateBtn").click(function() {
 	
-		if ($("#cname").val() == "") {
-			alert("카테고리 이름을 입력해주세요.");
+		if ($("#lccode").val() == "ccodesel") {
+			alert("수정하실 리스트의 카테고리를 선택해주세요.");
 			return;
-		} else if ($("#bname").val() == "") {
-			alert("게시판 이름을 입력해주세요.");
+		} else if ($("#lbname").val() == "") {
+			alert("수정하실 게시판 리스트 이름을 입력해주세요.");
 			return;
-		} else if ($("#btype").val() == "btypesel") {
-			alert("게시판 타입을 선택해주세요.");
+		} else if ($("#lbtype").val() == "btypesel") {
+			alert("수정하실 리스트의 게시판 타입을 선택해주세요.");
 			return;
 		} else {
-			if(confirm("카테고리 등록을 완료하시겠습니까?") == true){
-				document.boardinsertform.action = "${root}/boardadmin/boardinsert.cafe";
-				document.boardinsertform.submit();
+			if(confirm("카테고리 수정을 완료하시겠습니까?") == true){
+				document.listupdateform.action = "${root}/boardadmin/listupdate.cafe";
+				document.listupdateform.submit();
 			} else {
 				return;
 			}
@@ -36,15 +36,15 @@ $(document).ready(function() {
 		<div class="col-sm-12">
 			<div class="col-sm-3"></div>					
 			<div class="col-sm-6">
-			<form id="boardinsertform" name="boardinsertform" method="post" action="">
+			<form id="listupdateform" name="listupdateform" method="post" action="">
 				<div class="form-group" style="padding-bottom: 60px;" align="left">
 					<div class="col-sm-12">
 						<label for="ccode">카테고리</label>
 					</div>
 					<div class="col-sm-12">
 				
-					<select id="ccode" name="ccode" class="form-control">
-						<option value="btypesel" selected="selected">선택</option>
+					<select id="lccode" name="lccode" class="form-control">
+						<option value="ccodesel" selected="selected">선택</option>
 						<c:forEach var="caList" items="${caList}">
 							<c:if test="${cname != caList.cname}">
 							<c:set var="cname" value="${caList.cname}"/>						
@@ -59,7 +59,7 @@ $(document).ready(function() {
 						<label>게시판 이름</label>
 					</div>
 					<div class="col-sm-12">
-						<input type="text" id="bname" name="bname" class="form-control" maxlength="20">
+						<input type="text" id="lbname" name="lbname" class="form-control" maxlength="20">
 					</div>
 				</div>
 
@@ -68,12 +68,14 @@ $(document).ready(function() {
 						<label for="btype">게시판 형식</label>
 					</div>
 					<div class="col-sm-12">
-					<select id="btype" name="btype" class="form-control">
+					<select id="lbtype" name="lbtype" class="form-control">
 						<option value="btypesel" selected="selected">선택</option>
-						<option value="1">답변게시판</option>
-						<option value="2">자유게시판</option>
-						<option value="3">사진게시판</option>
-						<option value="4">자료실</option>
+						<c:forEach var="typeList" items="${typeList}">
+							<c:if test="${btypeName != typeList.btypeName}">
+							<c:set var="btype" value="${typeList.btypeName}"/>							
+								<option value="${typeList.btype}">${typeList.btypeName}</option>
+							</c:if>
+						</c:forEach>
 					</select>				
 					</div>						
 				</div>
@@ -89,7 +91,7 @@ $(document).ready(function() {
 			<button type="button" class="btn btn-default" data-dismiss="modal"
 			style="color:white; background-color: #116411; border-color: #116411;">취소</button>
 			<button type="button" class="btn btn-default" data-dismiss="modal" 
-			style="color:white; background-color: #116411; border-color: #116411;" id="insBtn" name="insBtn">수정</button>
+			style="color:white; background-color: #116411; border-color: #116411;" id="listupdateBtn" name="listupdateBtn">수정</button>
 		</div>
 	</div>
 </div>

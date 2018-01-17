@@ -18,7 +18,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-<div style="border: 1px solid #116411; margin-bottom: 100px;">
+<div style="border: 1px solid #116411; margin-top:120px; margin-bottom: 100px;">
 <div align="center" style="margin-top: 150px; margin-bottom:50px; height: 100%;">
 	<font size="5px;" style="color: #116411;"><strong>카테고리 등록</strong></font>
 </div>

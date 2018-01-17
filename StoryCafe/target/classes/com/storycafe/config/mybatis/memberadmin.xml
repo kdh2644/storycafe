@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
     
     <delete id="deleteMember" parameterType="com.storycafe.member.model.MemberDetailDto">
-    	delete member_detail
+    	delete member
     	where mno = #{mno}
     </delete>
     

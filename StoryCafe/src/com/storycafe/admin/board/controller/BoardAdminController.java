@@ -28,7 +28,6 @@ public class BoardAdminController {
 	@RequestMapping("/boardmenu.cafe")
 	public String boardMenu(HttpServletRequest request) {
 		List<BoardListDto> list = boardAdminService.boardMenu();
-		System.out.println("boardmenu list >>> " + list.size());
 		ServletContext context = request.getServletContext();
 		context.setAttribute("boardmenu", list);
 		return "redirect:/community/community-header.jsp";
@@ -82,10 +81,18 @@ public class BoardAdminController {
 		return mav;
 	}
 	
-	
 	@RequestMapping(value="/catedelete.cafe", method=RequestMethod.GET)
 	public ModelAndView catedelete() {
 		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/WEB-INF/categoryadmin/catedelete");				
+		return mav;
+	}
+	
+	@RequestMapping(value="/catedelete.cafe", method=RequestMethod.POST)
+	public ModelAndView catedelete(CategoryDto categoryDto) {
+		ModelAndView mav = new ModelAndView();
+		boardAdminService.catedelete(categoryDto);
+		mav.addObject("cateInfo", categoryDto);
 		mav.setViewName("/WEB-INF/categoryadmin/catedelete");				
 		return mav;
 	}
@@ -102,9 +109,37 @@ public class BoardAdminController {
 	@RequestMapping(value="/cateupdate.cafe", method=RequestMethod.GET)
 	public ModelAndView cateupdate() {
 		ModelAndView mav = new ModelAndView();
+		List<MemberDetailDto> calist = boardAdminService.caList();
+		mav.addObject("caList", calist);
 		mav.setViewName("/WEB-INF/categoryadmin/cateupdate");					
 		return mav;
 	}
+	
+	@RequestMapping(value="/cateupdate.cafe", method=RequestMethod.POST)
+	public ModelAndView cateupdate(CategoryDto categoryDto) {
+		ModelAndView mav = new ModelAndView();
+		boardAdminService.cateupdate(categoryDto);
+		mav.addObject("cateInfo", categoryDto);
+		mav.setViewName("/WEB-INF/categoryadmin/cateupdate");					
+		return mav;
+	}
+	
+	@RequestMapping(value="/listupdate.cafe", method=RequestMethod.POST)
+	public ModelAndView listupdate(@RequestParam(value="lccode", required=true) int lccode, 
+			@RequestParam(value="lbtype", required=true) int lbtype, @RequestParam(value="lbname", required=true) String lbname) {
+		
+		ModelAndView mav = new ModelAndView();
 
+		BoardListDto boardListDto = new BoardListDto();
+		boardListDto.setCcode(lccode);
+		boardListDto.setBname(lbname);
+		boardListDto.setBtype(lbtype);
+		boardAdminService.listupdate(boardListDto);
+		
+		mav.addObject("boardListInfo", boardListDto);
+		mav.setViewName("/WEB-INF/categoryadmin/catelist");					
+		return mav;
+	}
+	
 }
 	

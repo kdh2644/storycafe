@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/admin/category/cateadmin-header.jsp" %>
 
-<div style="margin-bottom: 20px; margin-top: 20px; height: 100%;">
+<div style="margin-bottom: 20px; margin-top: 120px; height: 100%;">
 	<table class="table table-bordered" style="text-align: center;">
 		<thead>
 			<tr style="background-color: #116411; color: white;">

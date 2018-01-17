@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.storycafe.admin.member.service.MemberAdminService;
 import com.storycafe.common.service.CommonService;
 import com.storycafe.member.model.MemberDetailDto;
+import com.storycafe.member.model.MemberDto;
 import com.storycafe.util.BoardConstance;
 import com.storycafe.util.PageNavigation;
 
@@ -78,9 +80,11 @@ public class MemberAdminController {
 		}
 		
 		@RequestMapping(value="/memberdelete.cafe", method=RequestMethod.POST)
-		public String memberdelete(@RequestParam(value="mno") int mno) {
-			System.out.println("mno >> " + mno);					
+		public String memberdelete(@RequestParam(value="mno") int mno, HttpSession session) {
+			MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
+
 			memberAdminService.deleteMember(mno);
+			session.removeAttribute("userInfo");
 			
 			return "/WEB-INF/memberadmin/memberlist";
 		}

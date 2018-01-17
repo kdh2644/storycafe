@@ -70,10 +70,12 @@ $(document).ready(function() {
 					<div class="col-sm-12">
 					<select id="btype" name="btype" class="form-control">
 						<option value="btypesel" selected="selected">선택</option>
-						<option value="1">답변게시판</option>
-						<option value="2">자유게시판</option>
-						<option value="3">사진게시판</option>
-						<option value="4">자료실</option>
+						<c:forEach var="typeList" items="${typeList}">
+							<c:if test="${btypeName != typeList.btypeName}">
+							<c:set var="btype" value="${typeList.btypeName}"/>							
+								<option value="${typeList.btype}">${typeList.btypeName}</option>
+							</c:if>
+						</c:forEach>
 					</select>				
 					</div>						
 				</div>

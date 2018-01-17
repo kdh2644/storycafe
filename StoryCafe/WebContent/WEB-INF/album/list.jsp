@@ -44,6 +44,7 @@ function myArticle(myid) {
 		</div>		
 		<div class="col-sm-6" align="right">
 			${article.logtime}
+			
 		</div>
 	</div>
 </c:forEach>		
